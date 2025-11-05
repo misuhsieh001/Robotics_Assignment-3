@@ -13,6 +13,9 @@ For Part A, just execute hw_a.py using
 cd ~/HW3
 python3 ./hw3_a.py
 ```
+<img width="733" height="676" alt="image" src="https://github.com/misuhsieh001/Robotics_Assignment-3/blob/main/figures/Screenshot%20from%202025-11-05%2014-53-07.png" />
+
+
 
 For Part B, execute
 ```bash
