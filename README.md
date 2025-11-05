@@ -16,7 +16,7 @@ python3 ./hw3_a.py
 
 For Part B, execute
 ```bash
-cd 
+cd ~/HW3
 python3 hw3_b.py cubes.png
 ```
 It will take cubes.png as input to execute the code.
