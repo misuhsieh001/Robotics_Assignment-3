@@ -19,7 +19,13 @@ For Part B, execute
 cd ~/HW3
 python3 hw3_b.py cubes.png
 ```
-It will take cubes.png as input to execute the code.
+
+
+For Part C, execute
+```bash
+python3 hw3_c.py cubes.png depth.png
+```
+
 
 
 ```python
