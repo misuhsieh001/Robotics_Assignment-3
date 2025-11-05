@@ -21,10 +21,13 @@ For Part B, execute
 ```bash
 python3 hw3_b.py cubes.png
 ```
-
+<img width="733" height="676" alt="image" src="https://github.com/misuhsieh001/Robotics_Assignment-3/blob/main/figures/Screenshot%20from%202025-11-05%2015-03-45.png
+" />
 
 For Part C, execute
 ```bash
 python3 hw3_c.py cubes.png depth.png
 ```
+<img width="733" height="676" alt="image" src="https://github.com/misuhsieh001/Robotics_Assignment-3/blob/main/figures/Screenshot%20from%202025-11-05%2015-08-52.png" />
+
 
