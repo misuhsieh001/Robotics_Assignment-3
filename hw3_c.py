@@ -115,14 +115,12 @@ def find_objects_and_properties(img, depth_img, K):
         # 2. Calculate X_c and Y_c using inverse projection
         X_c = (u - cx) * Z_c / fx
         Y_c = (v - cy) * Z_c / fy
-        
         # Store 3D results
         detected_results.append({
             'id': -1, 
             'centroid_2d': (u, v),
             'coord_3d': (X_c, Y_c, Z_c)
         })
-
     # --- Part B: ID Matching (Same as Fixed 14) ---
     
     # PDF ID and their approximate 2D centroids
@@ -165,6 +163,8 @@ def draw_results_3d(image, objects):
         i = obj['id']
         u, v = obj['centroid_2d']
         X, Y, Z = obj['coord_3d']
+
+        # print(f'CENTROID: {u}, {v}') # for debugging
 
         # Print to terminal
         text = f"ID {i}: Coord ({X:.2f}, {Y:.2f}, {Z:.2f})"
@@ -210,7 +210,7 @@ def main():
     # This is the matrix provided in the PDF for Part C.
     K = np.array([
         [613.57, 0.0,    286.54],
-        [0.0,    613.54, 251.36],
+        [0.0,    613.54, 151.36],
         [0.0,    0.0,    1.0   ]
     ])
 

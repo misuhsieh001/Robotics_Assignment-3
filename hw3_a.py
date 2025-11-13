@@ -12,8 +12,8 @@ import sys
 CHECKERBOARD = (8, 6) 
 
 # The real-world size of a square on the chessboard (in mm)
-SQUARE_SIZE = 20.0 
-
+SQUARE_SIZE = 18.0  #Canon PowerShot
+#SQUARE_SIZE = 20.0  #Iphone Blackmagic
 # Set the termination criteria for cornerSubPix
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -27,7 +27,8 @@ objp = np.zeros((CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
 # What mgid do is to create a grid of points for the chessboard corners in 3D space.
 objp[:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * SQUARE_SIZE
 print(objp)
-images = glob.glob('calibration_images/*.PNG') 
+images = glob.glob('calibration_images_2/*.JPG') #Canon PowerShot
+#images = glob.glob('calibration_images/*.PNG')  #Iphone Blackmagic
 print(images)
 if len(images) == 0:
     print("--- Fatal Error ---")
@@ -133,32 +134,36 @@ print("\nMean Re-projection Error :", total_mean_error)
 # ==============================================================================
 
 # Optimize the camera matrix based on free scaling parameter
-newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 
 print("\nOptimized Intrinsic Matrix (newcameramtx):\n", newcameramtx)
 
-# Read the first image for undistortion demonstration
+# Read the 20 calibration images and test image for undistortion demonstration
+#test_image = "bottle.png" #Iphone Blackmagic
+test_image = "bottle_2.jpg" # Canon PowerShot
+images.append(test_image)
 if len(images) > 0:
-    original_img = cv2.imread(images[0])
-    if original_img is not None:
-        
-        # Undistort the image
-        undistorted_img = cv2.undistort(original_img, mtx, dist, None, newcameramtx)
-        
-        # Crop the image based on the ROI
-        x, y, w_crop, h_crop = roi
-        undistorted_img_cropped = undistorted_img[y:y+h_crop, x:x+w_crop]
+    for i, image in enumerate(images):
+        original_img = cv2.imread(image)
+        if original_img is not None:
+            
+            # Undistort the image
+            undistorted_img = cv2.undistort(original_img, mtx, dist, None, newcameramtx)
+            
+            # Crop the image based on the ROI
+            x, y, w_crop, h_crop = roi
+            undistorted_img_cropped = undistorted_img[y:y+h_crop, x:x+w_crop]
+            # Display the original and undistorted images side by side
+            cv2.namedWindow('Undistortion Result', cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Undistortion Result', 1200, 600)
+            
+            # Stack original and undistorted images side by side
+            display_img = np.hstack((original_img, undistorted_img))
 
-        # Display the original and undistorted images side by side
-        cv2.namedWindow('Undistortion Result', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Undistortion Result', 1200, 600)
-        
-        # Stack original and undistorted images side by side
-        display_img = np.hstack((original_img, undistorted_img))
-
-        cv2.imshow('Undistortion Result', display_img)
-        print("\nPress any key to exit...")
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            cv2.imshow('Undistortion Result', display_img)
+            cv2.setWindowTitle('Undistortion Result', f'Undistortion Result {i+1}/26')
+            print("\nPress any key to exit...")
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
         
 print("\n--- Part A: Calibration Successful---")
